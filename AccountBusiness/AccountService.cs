@@ -1,4 +1,5 @@
-﻿using AccountData;
+﻿using AccountBusiness.Model;
+using AccountData;
 using AccountModel;
 using System;
 using System.Collections.Generic;
@@ -17,21 +18,34 @@ namespace AccountBusiness
             _accountRepo = accountRepo;
         }
 
-        public async Task<IEnumerable<Customer>> GetAll()
+        public async Task<BusinessResponse> GetAll()
         {
-            return await _accountRepo.GetAll();
+            return new BusinessResponse
+            {
+                Data = await _accountRepo.GetAll()
+            };
         }
-        public async Task<Customer> Deposit(string idNumber, decimal amount)
+        public async Task<BusinessResponse> Deposit(string idNumber, decimal amount)
         {
             if (amount > 100)
-                throw new Exception("Can not deposit more than 100.");
+            {
+                var resp = new BusinessResponse();
+                resp.Errors.Add("Can not deposit more than 100.");
+                return resp;
+            }
 
-            return await _accountRepo.Deposit(idNumber, amount);
+            return new BusinessResponse
+            {
+                Data = await _accountRepo.Deposit(idNumber, amount)
+            };
         }
 
-        public async Task<Customer> Withdraw(string idNumber, decimal amount)
+        public async Task<BusinessResponse> Withdraw(string idNumber, decimal amount)
         {
-            return await _accountRepo.Withdraw(idNumber, amount);
+            return new BusinessResponse
+            {
+                Data = await _accountRepo.Withdraw(idNumber, amount)
+            }; 
         }
     }
 }

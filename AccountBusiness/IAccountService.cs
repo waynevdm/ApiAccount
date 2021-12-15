@@ -1,4 +1,4 @@
-﻿using AccountModel;
+﻿using AccountBusiness.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace AccountBusiness
 {
     public interface IAccountService
     {
-        Task<IEnumerable<Customer>> GetAll();
-        Task<Customer> Deposit(string idNumber, decimal amount);
-        Task<Customer> Withdraw(string idNumber, decimal amount);
+        Task<BusinessResponse> GetAll();
+        Task<BusinessResponse> Deposit(string idNumber, decimal amount);
+        Task<BusinessResponse> Withdraw(string idNumber, decimal amount);
     }
 }

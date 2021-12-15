@@ -1,6 +1,6 @@
-﻿using AccountApi.Models;
-using AccountBusiness;
+﻿using AccountBusiness;
 using AccountModel;
+using AccountModel.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,21 +26,24 @@ namespace AccountApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<Customer>> Get()
         {
-            return await _accountService.GetAll();
+            var resp = await _accountService.GetAll();
+            return (IEnumerable<Customer>)resp.Data;
         }
 
         [HttpPost]
         [Route("deposit")]
         public async Task<Customer> Deposit(AccountUpdateModel model)
         {
-            return await _accountService.Deposit(model.IdNumber, model.Amount);
+            var resp = await _accountService.Deposit(model.IdNumber, model.Amount);
+            return (Customer)resp.Data;
         }
 
         [HttpPost]
         [Route("withdraw")]
         public async Task<Customer> Withdraw(AccountUpdateModel model)
         {
-            return await _accountService.Withdraw(model.IdNumber, model.Amount);
+            var resp = await _accountService.Withdraw(model.IdNumber, model.Amount);
+            return (Customer)resp.Data;
         }
     }
 }
